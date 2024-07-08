@@ -29,25 +29,24 @@ namespace azure_data_migration_v1.Helpers
         /// <summary>
         /// Upload a file to the Azure storage containers
         /// </summary>
-        /// <param name="localFilePath"></param>
+        /// <param name="temporaryLocalFilePath"></param>
         /// <param name="destinationFileName"></param>
-        public void Upload(string localFilePath, string destinationFileName)
+        public void Upload(string temporaryLocalFilePath, string destinationFileName)
         {
             // Get a reference to a _shareClient and then create it
-            _shareClient.Create();
+            //_shareClient.Create();
 
             // Get a reference to a directory and create it
             ShareDirectoryClient shareDirectoryClient = _shareClient.GetDirectoryClient(_directoryName);
-            shareDirectoryClient.Create();
+            //shareDirectoryClient.Create();
 
             // Get a reference to a file and upload it
             ShareFileClient shareFileClient = shareDirectoryClient.GetFileClient(destinationFileName);
-            using (FileStream fileStream = File.OpenRead(localFilePath))
+
+            using (FileStream fileStream = File.OpenRead(temporaryLocalFilePath))
             {
                 shareFileClient.Create(fileStream.Length);
-                shareFileClient.UploadRange(
-                    new HttpRange(0, fileStream.Length),
-                    fileStream);
+                shareFileClient.UploadRange(new HttpRange(0, fileStream.Length), fileStream);
             }
         }
 
@@ -74,7 +73,7 @@ namespace azure_data_migration_v1.Helpers
         /// Traverse a storage container
         /// </summary>
         /// <returns></returns>
-        public bool Traverse()
+        public void Traverse()
         {
             // Track the remaining directories to walk, starting from the root
             var shareDirectoryClientsQueue = new Queue<ShareDirectoryClient>();

@@ -115,6 +115,16 @@
     <br/><br/>
     
     @{
+        string queryParametersWithMCIandLTF = queryParameters;
+
+        if (!string.IsNullOrEmpty(Request.Query["mci"]))
+        {
+            if (isAdditionalVariable)
+                queryParametersWithMCIandLTF += "&";
+            queryParametersWithMCIandLTF += "mci=" + Request.Query["mci"];
+            isAdditionalVariable = true;
+        }
+
         var documentsList = (List<MimDocumentsVw>)ViewData["MimDocumentsVwList"];
         <table cellpadding="2" style="border: 1px solid;">
             @if (documentsList != null)
@@ -127,7 +137,7 @@
                         <td>@record.MimDocumentsLinkToFile</td>
                         <td>@record.MimDocumentsDescription</td>
                         <td>
-                            <p><a href="/BlobToFileStorage?mci=@record.MimControlId&dltf=@record.MimDocumentsLinkToFile" class="btn btn-default">Move</a></p>
+                            <p><a href="/BlobToFileStorage?@queryParametersWithMCIandLTF&ltf=@record.MimDocumentsLinkToFile" class="btn btn-default">Move</a></p>
                         </td>
                     </tr>
                 }

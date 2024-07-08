@@ -139,3 +139,9 @@ C:\Users\User\source\repos\AzureDataMigrationTool\azure_data_migration_v1\azure_
 C:\Users\User\source\repos\AzureDataMigrationTool\azure_data_migration_v1\azure_data_migration_v1\bin\Debug\net8.0\NHibernate.dll
 C:\Users\User\source\repos\AzureDataMigrationTool\azure_data_migration_v1\azure_data_migration_v1\bin\Debug\net8.0\Remotion.Linq.dll
 C:\Users\User\source\repos\AzureDataMigrationTool\azure_data_migration_v1\azure_data_migration_v1\bin\Debug\net8.0\Remotion.Linq.EagerFetching.dll
+C:\Users\User\source\repos\AzureDataMigrationTool\azure_data_migration_v1\azure_data_migration_v1\obj\Debug\net8.0\azure_data_migration_v1.sourcelink.json
+C:\Users\User\source\repos\AzureDataMigrationTool\azure_data_migration_v1\azure_data_migration_v1\bin\Debug\net8.0\Azure.Storage.Blobs.dll
+C:\Users\User\source\repos\AzureDataMigrationTool\azure_data_migration_v1\azure_data_migration_v1\bin\Debug\net8.0\Azure.Storage.Common.dll
+C:\Users\User\source\repos\AzureDataMigrationTool\azure_data_migration_v1\azure_data_migration_v1\bin\Debug\net8.0\Azure.Storage.Files.Shares.dll
+C:\Users\User\source\repos\AzureDataMigrationTool\azure_data_migration_v1\azure_data_migration_v1\bin\Debug\net8.0\System.ClientModel.dll
+C:\Users\User\source\repos\AzureDataMigrationTool\azure_data_migration_v1\azure_data_migration_v1\bin\Debug\net8.0\System.IO.Hashing.dll

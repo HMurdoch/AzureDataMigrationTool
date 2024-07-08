@@ -1,7 +1,10 @@
-﻿using azure_data_migration_v1.Entities;
+﻿using System.Drawing;
+using azure_data_migration_v1.Entities;
+using azure_data_migration_v1.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.IdentityModel.Tokens;
+using NHibernate.Linq;
 
 namespace azure_data_migration_v1.Pages
 {
@@ -21,7 +24,7 @@ namespace azure_data_migration_v1.Pages
             var mimPersonVwList = new List<MimPersonVw>();
             if (!string.IsNullOrEmpty(Request.Query["name"].ToString()))
             {
-                List<MimPersonVw> mimPersonVwRecords = _dbContext.MimPersonVws.Where(p => p.MimPersonNameSurname == Request.Query["same"].ToString()).ToList();
+                List<MimPersonVw> mimPersonVwRecords = _dbContext.MimPersonVws.Where(p => p.MimPersonNameSurname == Request.Query["name"].ToString()).ToList();
                 foreach (var record in mimPersonVwRecords)
                     if (!mimPersonVwList.Contains(record))
                         mimPersonVwList.Add(record);
@@ -55,6 +58,11 @@ namespace azure_data_migration_v1.Pages
             {
                 this.ListDocuments(Request.Query["mci"]);
             }
+
+            if (!string.IsNullOrEmpty(Request.Query["ltf"]))
+            {
+                this.MoveBlobToFileStorage(Request.Query["ltf"]);
+            }
         }
 
         public void OnPost()
@@ -62,11 +70,11 @@ namespace azure_data_migration_v1.Pages
             bool isAdditionalVariable = false;
             string queryParameters = "/BlobToFileStorage?";
 
-            if (!string.IsNullOrEmpty(Request.Query["mci"]))
-            {
-                queryParameters += "mci=" + Request.Query["mci"];
-                isAdditionalVariable = true;
-            }
+            //if (!string.IsNullOrEmpty(Request.Query["mci"]))
+            //{
+            //    queryParameters += "mci=" + Request.Query["mci"];
+            //    isAdditionalVariable = true;
+            //}
             if (!string.IsNullOrEmpty(Request.Form["Name"].ToString()))
             {
                 if (isAdditionalVariable)
@@ -126,6 +134,38 @@ namespace azure_data_migration_v1.Pages
                     mimDocumentsVwList.Add(record);
 
             ViewData["MimDocumentsVwList"] = mimDocumentsVwList;
+        }
+
+        public void MoveBlobToFileStorage(string linkToFile)
+        {
+            AzureBlobHelper azureBlobHelper = new AzureBlobHelper();
+            AzureFileStorageHelper azureFileStorageHelper = new AzureFileStorageHelper();
+            CbrEunPocCfgQueue9bb531c86eContext dbContext = new CbrEunPocCfgQueue9bb531c86eContext();
+            
+            var base64BlobData = azureBlobHelper.Download(linkToFile.ToLower()).Replace(" ", "+");
+            byte[] imageBytes = Convert.FromBase64String(base64BlobData);
+            string temporaryFileName = Path.GetTempFileName();
+
+            try
+            {
+                using (MemoryStream memoryStream = new MemoryStream(imageBytes))
+                {
+                    Image image = Image.FromStream(memoryStream);
+                    image.Save(temporaryFileName);
+                }
+
+                azureFileStorageHelper.Upload(temporaryFileName, linkToFile + ".jpg");
+                var documentRecord = dbContext.MimDocumentsVws.FirstOrDefault(p => p.MimDocumentsLinkToFile == Guid.Parse(linkToFile));
+                if (documentRecord != null)
+                {
+                    documentRecord.MimDocumentsReferenceNo = linkToFile = "jpg";
+                    dbContext.SaveChanges();
+                }
+            }
+            finally
+            {
+                System.IO.File.Delete(temporaryFileName);
+            }
 
         }
     }

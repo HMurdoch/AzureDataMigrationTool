@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("azure_data_migration_v1")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e66a103e6dedcfa3462da1b45a84bd24fb05d95d")]
 [assembly: System.Reflection.AssemblyProductAttribute("azure_data_migration_v1")]
 [assembly: System.Reflection.AssemblyTitleAttribute("azure_data_migration_v1")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
