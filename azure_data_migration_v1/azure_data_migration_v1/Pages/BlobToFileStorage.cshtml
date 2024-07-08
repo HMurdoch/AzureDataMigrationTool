@@ -1,0 +1,139 @@
+﻿@page
+@using azure_data_migration_v1.Entities
+@model BlobToFileStorage
+@{
+    ViewData["Title"] = "Blob to File Storage";
+}
+<h1>@ViewData["Title"]</h1>
+
+<form method="post">
+    <fieldset>
+        <legend>Search</legend>
+        <table style="border:none" cellpadding="2">
+            <tr>
+                <td>
+                    <label for="Name">Name:</label>
+                </td>
+                <td>
+                    <input type="text" name="Name" value="@ViewData["name"]" id="Name" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="Surname">Surname:</label>
+                </td>
+                <td>
+                    <input type="text" name="Surname" value="@ViewData["surname"]" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="Email">Email:</label>
+                </td>
+                <td>
+                    <input type="text" name="Email" value="@ViewData["email"]" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="Cellphone">Cellphone:</label>
+                </td>
+                <td>
+                    <input type="text" name="Cellphone" value="@ViewData["cellphone"]" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="MIMControlID">MIM Control ID:</label>
+                </td>
+                <td>
+                    <input type="text" name="MIMControlID" value="@ViewData["mimcontrolid"]" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>&nbsp;</label>
+                </td>
+                <td>
+                    @{
+                        bool isAdditionalVariable = false;
+                        string queryParameters = "/BlobToFileStorage?";
+
+                        if (!string.IsNullOrEmpty(Request.Query["name"]))
+                        {
+                            if (isAdditionalVariable)
+                                queryParameters += "&";
+                            queryParameters += "name=" + Request.Query["name"];
+                            isAdditionalVariable = true;
+                        }
+                        if (!string.IsNullOrEmpty(Request.Query["surname"]))
+                        {
+                            if (isAdditionalVariable)
+                                queryParameters += "&";
+                            queryParameters += "surname=" + Request.Query["Surname"];
+                            isAdditionalVariable = true;
+                        }
+                        if (!string.IsNullOrEmpty(Request.Query["mimcontrolid"]))
+                        {
+                            if (isAdditionalVariable)
+                                queryParameters += "&";
+                            queryParameters += "mimcontrolid=" + Request.Query["mimcontrolid"];
+                            isAdditionalVariable = true;
+                        }
+                    }
+                    <input type="submit" value="List Controls" class="submit" />
+                </td>
+            </tr>
+        </table>
+    </fieldset>
+    
+    <br /><br />
+
+    @{
+        var personList = (List<MimPersonVw>)ViewData["MimPersonVwList"];
+        <table cellpadding="2" style="border: 1px solid;">
+            @if (personList != null)
+            {
+                @foreach (MimPersonVw record in personList)
+                {
+                    string queryParametersWithMCI = queryParameters;
+                    queryParametersWithMCI += "&mci=" + record.MimControlId;
+
+                    <tr style="border: 1px solid;">
+                        <td>@record.MimPersonNameFirst</td>
+                        <td>@record.MimPersonNameSurname</td>
+                        <td>@record.MimControlId</td>
+                        <td>
+                            <p><a href="@queryParametersWithMCI" class="btn btn-default">List Documents</a></p>
+                        </td>
+                    </tr>
+                }
+            }
+        </table>
+    }
+
+    <br/><br/>
+    
+    @{
+        var documentsList = (List<MimDocumentsVw>)ViewData["MimDocumentsVwList"];
+        <table cellpadding="2" style="border: 1px solid;">
+            @if (documentsList != null)
+            {
+                @foreach (MimDocumentsVw record in documentsList)
+                {
+                    <tr style="border: 1px solid;">
+                        <td>@record.MimDocumentsId</td>
+                        <td>@record.CcgDocTypeScode</td>
+                        <td>@record.MimDocumentsLinkToFile</td>
+                        <td>@record.MimDocumentsDescription</td>
+                        <td>
+                            <p><a href="/BlobToFileStorage?mci=@record.MimControlId&dltf=@record.MimDocumentsLinkToFile" class="btn btn-default">Move</a></p>
+                        </td>
+                    </tr>
+                }
+            }
+        </table>
+    }
+
+
+</form>

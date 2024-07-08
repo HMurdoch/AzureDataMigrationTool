@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "azure_data_migration_v1", "azure_data_migration_v1\azure_data_migration_v1.csproj", "{90F91977-558F-4E81-AA3B-D16CE23DB401}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{90F91977-558F-4E81-AA3B-D16CE23DB401}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90F91977-558F-4E81-AA3B-D16CE23DB401}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90F91977-558F-4E81-AA3B-D16CE23DB401}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90F91977-558F-4E81-AA3B-D16CE23DB401}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FBA67C39-51F9-4998-9485-DE69E506D03F}
+	EndGlobalSection
+EndGlobal
