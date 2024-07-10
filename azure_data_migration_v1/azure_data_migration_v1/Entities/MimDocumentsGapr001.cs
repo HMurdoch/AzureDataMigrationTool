@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using Microsoft.EntityFrameworkCore;
 
 namespace azure_data_migration_v1.Entities;
-public partial class MimDocumentsVw
+
+public partial class MimDocumentsGapr001
 {
     public Guid MimDocumentsId { get; set; }
 

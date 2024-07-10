@@ -3,6 +3,7 @@ using azure_data_migration_v1.Entities;
 using azure_data_migration_v1.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using NHibernate.Linq;
 
@@ -11,7 +12,7 @@ namespace azure_data_migration_v1.Pages
     public class BlobToFileStorage : PageModel
     {
         private readonly ILogger<BlobToFileStorage> _logger;
-        CbrEunPocCfgQueue9bb531c86eContext _dbContext = new CbrEunPocCfgQueue9bb531c86eContext();
+        dbContext _dbContext = new dbContext();
 
 
         public BlobToFileStorage(ILogger<BlobToFileStorage> logger)
@@ -21,34 +22,34 @@ namespace azure_data_migration_v1.Pages
 
         public void OnGet()
         {
-            var mimPersonVwList = new List<MimPersonVw>();
+            var mimPerson001sList = new List<MimPerson001>();
             if (!string.IsNullOrEmpty(Request.Query["name"].ToString()))
             {
-                List<MimPersonVw> mimPersonVwRecords = _dbContext.MimPersonVws.Where(p => p.MimPersonNameSurname == Request.Query["name"].ToString()).ToList();
+                List<MimPerson001> mimPersonVwRecords = _dbContext.MimPerson001s.Where(p => p.MimPersonNameSurname == Request.Query["name"].ToString()).ToList();
                 foreach (var record in mimPersonVwRecords)
-                    if (!mimPersonVwList.Contains(record))
-                        mimPersonVwList.Add(record);
+                    if (!mimPerson001sList.Contains(record))
+                        mimPerson001sList.Add(record);
                 ViewData["name"] = Request.Query["name"].ToString();
             }
 
             if (!string.IsNullOrEmpty(Request.Query["surname"].ToString()))
             {
-                List<MimPersonVw> mimPersonVwRecords = _dbContext.MimPersonVws.Where(p => p.MimPersonNameSurname == Request.Query["surname"].ToString()).ToList();
+                List<MimPerson001> mimPersonVwRecords = _dbContext.MimPerson001s.Where(p => p.MimPersonNameSurname == Request.Query["surname"].ToString()).ToList();
                 foreach (var record in mimPersonVwRecords)
-                    if (!mimPersonVwList.Contains(record))
-                        mimPersonVwList.Add(record);
+                    if (!mimPerson001sList.Contains(record))
+                        mimPerson001sList.Add(record);
                 ViewData["surname"] = Request.Query["surname"].ToString();
             }
 
             if (!string.IsNullOrEmpty(Request.Query["mimcontrolid"].ToString()))
             {
-                List<MimPersonVw> mimPersonVwRecords = _dbContext.MimPersonVws.Where(p => p.MimPersonNameSurname == Request.Query["mimcontrolid"].ToString()).ToList();
+                List<MimPerson001> mimPersonVwRecords = _dbContext.MimPerson001s.Where(p => p.MimPersonNameSurname == Request.Query["mimcontrolid"].ToString()).ToList();
                 foreach (var record in mimPersonVwRecords)
-                    if (!mimPersonVwList.Contains(record))
-                        mimPersonVwList.Add(record);
+                    if (!mimPerson001sList.Contains(record))
+                        mimPerson001sList.Add(record);
                 ViewData["mimcontrolid"] = Request.Query["mimcontrolid"].ToString();
             }
-            ViewData["MimPersonVwList"] = mimPersonVwList;
+            ViewData["MimPersonVwList"] = mimPerson001sList;
 
 
             if (!string.IsNullOrEmpty(Request.Query["name"]) || !string.IsNullOrEmpty(Request.Query["surname"]) || !string.IsNullOrEmpty(Request.Query["mimcontrolid"]))
@@ -101,46 +102,44 @@ namespace azure_data_migration_v1.Pages
 
         public void ListMimControls()
         {
-            var mimPersonVwList = new List<MimPersonVw>();
-            List<MimPersonVw> mimPersonVwRecords = _dbContext.MimPersonVws.Where(p => p.MimPersonNameSurname == Request.Query["name"].ToString()).ToList();
-            foreach (var record in mimPersonVwRecords)
-                if (!mimPersonVwList.Contains(record))
-                    mimPersonVwList.Add(record);
+            var mimPerson001List = new List<MimPerson001>();
+            List<MimPerson001> mimPerson001RecordsList = _dbContext.MimPerson001s.Where(p => p.MimPersonNameSurname == Request.Query["name"].ToString()).ToList();
+            foreach (var record in mimPerson001RecordsList)
+                if (!mimPerson001List.Contains(record))
+                    mimPerson001List.Add(record);
 
             ViewData["name"] = Request.Query["name"].ToString();
 
-            mimPersonVwRecords = _dbContext.MimPersonVws.Where(p => p.MimPersonNameSurname == Request.Query["surname"].ToString()).ToList();
-            foreach (var record in mimPersonVwRecords)
-                if (!mimPersonVwList.Contains(record))
-                    mimPersonVwList.Add(record);
+            mimPerson001RecordsList = _dbContext.MimPerson001s.Where(p => p.MimPersonNameSurname == Request.Query["surname"].ToString()).ToList();
+            foreach (var record in mimPerson001RecordsList)
+                if (!mimPerson001List.Contains(record))
+                    mimPerson001List.Add(record);
             ViewData["surname"] = Request.Query["surname"].ToString();
 
-            mimPersonVwRecords = _dbContext.MimPersonVws.Where(p => p.MimPersonNameSurname == Request.Query["mimcontrolid"].ToString()).ToList();
-            foreach (var record in mimPersonVwRecords)
-                if (!mimPersonVwList.Contains(record))
-                    mimPersonVwList.Add(record);
+            mimPerson001RecordsList = _dbContext.MimPerson001s.Where(p => p.MimPersonNameSurname == Request.Query["mimcontrolid"].ToString()).ToList();
+            foreach (var record in mimPerson001RecordsList)
+                if (!mimPerson001List.Contains(record))
+                    mimPerson001List.Add(record);
             ViewData["mimcontrolid"] = Request.Query["mimcontrolid"].ToString();
 
-            ViewData["MimPersonVwList"] = mimPersonVwList;
+            ViewData["MimPersonVwList"] = mimPerson001List;
         }
 
         public void ListDocuments(string mimControlID)
         {
-            var mimDocumentsVwList = new List<MimDocumentsVw>();
-            var mimControlIDGuid = Guid.Parse(mimControlID);
-            List<MimDocumentsVw> mimDocumentsVwRecords = _dbContext.MimDocumentsVws.Where(vw => vw.MimControlId == mimControlIDGuid).ToList();
+            var mimDocuments001List = new List<MimDocuments001>();
+            List<MimDocuments001> mimDocumentsVwRecords = _dbContext.MimDocuments001s.Where(vw => vw.MimControlId == Guid.Parse(mimControlID)).ToList();
             foreach (var record in mimDocumentsVwRecords)
-                if (!mimDocumentsVwList.Contains(record))
-                    mimDocumentsVwList.Add(record);
+                if (!mimDocuments001List.Contains(record))
+                    mimDocuments001List.Add(record);
 
-            ViewData["MimDocumentsVwList"] = mimDocumentsVwList;
+            ViewData["MimDocumentsVwList"] = mimDocuments001List;
         }
 
         public void MoveBlobToFileStorage(string linkToFile)
         {
             AzureBlobHelper azureBlobHelper = new AzureBlobHelper();
             AzureFileStorageHelper azureFileStorageHelper = new AzureFileStorageHelper();
-            CbrEunPocCfgQueue9bb531c86eContext dbContext = new CbrEunPocCfgQueue9bb531c86eContext();
             
             var base64BlobData = azureBlobHelper.Download(linkToFile.ToLower()).Replace(" ", "+");
             byte[] imageBytes = Convert.FromBase64String(base64BlobData);
@@ -155,11 +154,16 @@ namespace azure_data_migration_v1.Pages
                 }
 
                 azureFileStorageHelper.Upload(temporaryFileName, linkToFile + ".jpg");
-                var documentRecord = dbContext.MimDocumentsVws.FirstOrDefault(p => p.MimDocumentsLinkToFile == Guid.Parse(linkToFile));
-                if (documentRecord != null)
+
+                using (_dbContext)
                 {
-                    documentRecord.MimDocumentsReferenceNo = linkToFile = "jpg";
-                    dbContext.SaveChanges();
+                    var documentRecord = _dbContext.MimDocuments001s.FirstOrDefault(p => p.MimDocumentsLinkToFile == Guid.Parse(linkToFile));
+                    if (documentRecord != null)
+                    {
+                        documentRecord.MimDocumentsReferenceNo = linkToFile + ".jpg";
+                        //_dbContext.Attach(documentRecord).State = EntityState.Modified;
+                        var updateCount = _dbContext.SaveChanges();
+                    }
                 }
             }
             finally
